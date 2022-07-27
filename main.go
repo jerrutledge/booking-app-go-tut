@@ -4,6 +4,8 @@ import "fmt"
 
 // Where to start the program - compiler signal
 func main() {
-	fmt.Print("Welcome to our conference booking application.")
+	var conferenceName = "Go Conference"
+
+	fmt.Print("Welcome to the " + conferenceName + " booking application.\n")
 	fmt.Print("Get your tickets here to attend.")
 }
