@@ -2,15 +2,34 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
-// Where to start the program - compiler signal
-func main() {
-	var conferenceName = "Go Conference"
-	const conferenceTicketsNum = 50
-	var remainingTickets = conferenceTicketsNum
+func worker(id int, jobs <-chan int, results chan<- int) {
+	for j := range jobs {
+		fmt.Println("worker", id, "started  job", j)
+		time.Sleep(time.Second)
+		fmt.Println("worker", id, "finished job", j)
+		results <- j * 2
+	}
+}
 
-	fmt.Printf("Welcome to the %v booking application.\n", conferenceName)
-	fmt.Print("There are ", remainingTickets, " tickets remaining, out of a total of ", remainingTickets, " tickets. \n")
-	fmt.Print("Get your tickets here to attend.")
+func main() {
+
+	const numJobs = 5
+	jobs := make(chan int, numJobs)
+	results := make(chan int, numJobs)
+
+	for w := 1; w <= 3; w++ {
+		go worker(w, jobs, results)
+	}
+
+	for j := 1; j <= numJobs; j++ {
+		jobs <- j
+	}
+	close(jobs)
+
+	for a := 1; a <= numJobs; a++ {
+		<-results
+	}
 }
