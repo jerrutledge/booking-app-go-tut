@@ -11,8 +11,8 @@ func longestPalindrome(s string) string {
 		longest := s[center : center+1]
 		// two types of palindromes, odd and even
 		// ODD
-		iterrange := math.Min(float64(center), float64(len(s)-center))
-		for i := 1; i < int(iterrange); i++ { // odd, this character is the center
+		iterrange := math.Min(float64(center), float64(len(s)-center-1))
+		for i := 1; i <= int(iterrange); i++ { // odd, this character is the center
 			if s[center-i:center-i+1] == s[center+i:center+i+1] {
 				// still a palindrome
 				longest = s[center-i : center+i+1]
@@ -22,6 +22,7 @@ func longestPalindrome(s string) string {
 			}
 		}
 		// EVEN
+		iterrange = math.Min(float64(center), float64(len(s)-center))
 		for i := 1; i <= int(iterrange); i++ {
 			if s[center-i:center-i+1] == s[center+i-1:center+i] {
 				// still a palindrome
@@ -67,6 +68,6 @@ func longestPalindrome(s string) string {
 
 func main() {
 
-	s := "ccc"
+	s := "bb"
 	fmt.Println(longestPalindrome(s))
 }
